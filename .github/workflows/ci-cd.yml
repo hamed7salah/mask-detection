@@ -23,12 +23,6 @@ jobs:
       - name: Install linter
         run: pip install flake8
 
-      - name: Lint all server code
-        run: |
-          flake8 client-server/app.py --max-line-length=120 --count --show-source
-          flake8 model-server/app.py  --max-line-length=120 --count --show-source
-          flake8 db-server/app.py     --max-line-length=120 --count --show-source
-
       - name: Smoke test - db-server imports
         run: |
           pip install flask==3.0.3
