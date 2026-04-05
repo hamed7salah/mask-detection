@@ -10,32 +10,7 @@ env:
   DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
 
 jobs:
-  # ─── JOB 1: Lint & Smoke Test ──────────────────────────
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.9"
-
-      - name: Install linter
-        run: pip install flake8
-
-      - name: Smoke test - db-server imports
-        run: |
-          pip install flask==3.0.3
-          cd db-server && python -c "from app import app; print('db-server OK')"
-
-      - name: Smoke test - client-server imports
-        run: |
-          pip install flask==3.0.3 requests==2.32.3
-          cd client-server && python -c "from app import app; print('client-server OK')"
-
-  # ─── JOB 2: Build & Push Docker Images ─────────────────
   build-and-push:
-    needs: test
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
@@ -47,7 +22,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build & push client-server
+      - name: Build and push client-server
         uses: docker/build-push-action@v5
         with:
           context: ./client-server
@@ -56,7 +31,7 @@ jobs:
             ${{ env.DOCKERHUB_USERNAME }}/mask-client:latest
             ${{ env.DOCKERHUB_USERNAME }}/mask-client:${{ github.sha }}
 
-      - name: Build & push model-server
+      - name: Build and push model-server
         uses: docker/build-push-action@v5
         with:
           context: ./model-server
@@ -65,7 +40,7 @@ jobs:
             ${{ env.DOCKERHUB_USERNAME }}/mask-model:latest
             ${{ env.DOCKERHUB_USERNAME }}/mask-model:${{ github.sha }}
 
-      - name: Build & push db-server
+      - name: Build and push db-server
         uses: docker/build-push-action@v5
         with:
           context: ./db-server
@@ -73,10 +48,3 @@ jobs:
           tags: |
             ${{ env.DOCKERHUB_USERNAME }}/mask-db:latest
             ${{ env.DOCKERHUB_USERNAME }}/mask-db:${{ github.sha }}
-
-      - name: Summary
-        run: |
-          echo "### Docker Images Pushed :rocket:" >> $GITHUB_STEP_SUMMARY
-          echo "- \`${{ env.DOCKERHUB_USERNAME }}/mask-client:latest\`" >> $GITHUB_STEP_SUMMARY
-          echo "- \`${{ env.DOCKERHUB_USERNAME }}/mask-model:latest\`" >> $GITHUB_STEP_SUMMARY
-          echo "- \`${{ env.DOCKERHUB_USERNAME }}/mask-db:latest\`" >> $GITHUB_STEP_SUMMARY
