@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+  client-server:
+    build: ./client-server
+    ports:
+      - "5000:5000"
+    environment:
+      - MODEL_SERVER_URL=http://model-server:5001
+    depends_on:
+      - model-server
+    restart: unless-stopped
+
+  model-server:
+    build: ./model-server
+    ports:
+      - "5001:5001"
+    environment:
+      - DB_SERVER_URL=http://db-server:5002
+      - MODEL_PATH=mask_detector_model.h5
+    depends_on:
+      - db-server
+    restart: unless-stopped
+
+  db-server:
+    build: ./db-server
+    ports:
+      - "5002:5002"
+    environment:
+      - DATA_DIR=/app/data
+    volumes:
+      - db-data:/app/data
+    restart: unless-stopped
+
+volumes:
+  db-data:
