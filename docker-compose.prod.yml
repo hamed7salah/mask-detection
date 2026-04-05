@@ -1,0 +1,24 @@
+# docker-compose.prod.yml
+version: "3.8"
+services:
+  client-server:
+    image: YOUR_DOCKERHUB_USER/mask-client:latest
+    ports: ["5000:5000"]
+    environment:
+      - MODEL_SERVER_URL=http://model-server:5001
+    depends_on: [model-server]
+
+  model-server:
+    image: YOUR_DOCKERHUB_USER/mask-model:latest
+    ports: ["5001:5001"]
+    environment:
+      - DB_SERVER_URL=http://db-server:5002
+    depends_on: [db-server]
+
+  db-server:
+    image: YOUR_DOCKERHUB_USER/mask-db:latest
+    ports: ["5002:5002"]
+    volumes: [db-data:/app/data]
+
+volumes:
+  db-data:

@@ -9,7 +9,8 @@ from PIL import Image
 
 app = Flask(__name__)
 
-MODEL_PATH = os.environ.get("MODEL_PATH", "mask_detector_model.h5")
+MODEL_PATH = os.environ.get("MODEL_PATH", "mask_detector_model.keras")
+
 DB_SERVER_URL = os.environ.get("DB_SERVER_URL", "http://db-server:5002")
 
 print(f"Loading model from {MODEL_PATH} ...")
