@@ -218,9 +218,3 @@ This project was built for **educational purposes** to demonstrate:
 - CI/CD pipelines with GitHub Actions
 - Model deployment with Flask
 - Data collection for model retraining
-
----
-
-## License
-
-This project is for educational purposes only.
