@@ -1,4 +1,3 @@
-```markdown
 # Mask Detection using CNN & Transfer Learning
 
 [![CI/CD Pipeline](https://github.com/hamed7salah/mask-detection/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/hamed7salah/mask-detection/actions/workflows/ci-cd.yml)
@@ -225,4 +224,3 @@ This project was built for **educational purposes** to demonstrate:
 ## License
 
 This project is for educational purposes only.
-```
