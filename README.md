@@ -161,9 +161,9 @@ The GitHub Actions workflow triggers on every push to `main`:
 ### Docker Images
 
 ```
-hamed7salah/mask-client:latest
-hamed7salah/mask-model:latest
-hamed7salah/mask-db:latest
+hamedsalah/mask-client:latest
+hamedsalah/mask-model:latest
+hamedsalah/mask-db:latest
 ```
 
 ---
@@ -172,9 +172,9 @@ hamed7salah/mask-db:latest
 
 ```bash
 # Pull pre-built images
-docker pull hamed7salah/mask-client:latest
-docker pull hamed7salah/mask-model:latest
-docker pull hamed7salah/mask-db:latest
+docker pull hamedsalah/mask-client:latest
+docker pull hamedsalah/mask-model:latest
+docker pull hamedsalah/mask-db:latest
 
 # Run with docker compose
 docker compose up
